@@ -1,4 +1,8 @@
+{% if ((grains['os_family'] == 'Debian') or
+       (grains['os_family'] == 'RedHat' and
+        grains['osmajorrelease'][0] in ['5', '6'])) %}
 newrelic-sysmond:
+{% if grains['os_family'] == 'Debian' %}
   pkgrepo.managed:
     - humanname: Newrelic PPA
     - name: deb http://apt.newrelic.com/debian/ newrelic non-free
@@ -7,6 +11,14 @@ newrelic-sysmond:
     - keyserver: pgp.mit.edu
     - require_in:
       - pkg: newrelic-sysmond
+{% elif grains['os_family'] == 'RedHat' %}
+  pkg.installed:
+    - name : newrelic-repo-5-3
+    - sources:
+    - newrelic: http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
+    - require_in:
+      - pkg: newrelic-sysmond
+{% endif %}
   pkg:
     - installed
   cmd.run:
@@ -25,3 +37,4 @@ newrelic-sysmond:
     - watch:
       - pkg: newrelic-sysmond
       - file: /etc/newrelic/nrsysmond.cfg
+{% endif %}

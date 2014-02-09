@@ -2,7 +2,9 @@ newrelic-formula
 ================
 
 A saltstack formula that installs newrelic agent.
-
+It supports Debian, Ubuntu, Red Hat Enterprise Linux 5 & 6 and any
+other RedHat based distribution like CentOS 5 & 6 or Oracle Linux 5/6.
+ 
 > **note**
 >
 >    See the full [Salt Formulas installation and usage instructions][].
